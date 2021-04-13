@@ -1,6 +1,8 @@
 # golang-tip
 
-Daily builds of [active Go development branches](https://github.com/golang/go/branches/active). Available on both Docker Hub and GitHub Container Registry.
+Daily builds of [active Go development branches](https://github.com/golang/go/branches/active).
+Available on both [Docker Hub](https://hub.docker.com/r/aleksi/golang-tip)
+and [GitHub Container Registry](https://github.com/users/AlekSi/packages/container/package/golang-tip).
 
 ```
 docker pull aleksi/golang-tip:master

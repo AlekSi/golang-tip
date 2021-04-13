@@ -1,0 +1,55 @@
+---
+name: Build
+on:
+  schedule:
+    # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
+    # > Note: The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs.
+    # > High load times include the start of every hour. To decrease the chance of delay, schedule your workflow to run at a different time of the hour.
+    - cron: '48 2 * * *'
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  docker:
+    name: Docker
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+        branch:
+          - master
+          - dev.boringcrypto
+          - dev.fuzz
+          - dev.go2go
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      GO_BRANCH: ${{ matrix.branch }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Start BuildKit builder
+        run: make up
+
+      - name: Build Docker images
+        run: make build
+
+      # skip push for PRs
+
+      - name: Login into Docker registries
+        if: github.event_name != 'pull_request'
+        run: |
+          docker login --username aleksi --password ${{ secrets.DOCKERHUB_TOKEN }}
+          docker login ghcr.io --username aleksi --password ${{ secrets.GHCR_TOKEN }}
+
+      - name: Push Docker images
+        if: github.event_name != 'pull_request'
+        run: make push

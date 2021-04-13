@@ -30,7 +30,7 @@ RUN go install -v -race std
 RUN go install -v std
 RUN go clean -cache
 
-LABEL org.opencontainers.image.title="Active Go development branches autobuilds"
+LABEL org.opencontainers.image.title="Daily builds of active Go development branches"
 LABEL org.opencontainers.image.url=https://github.com/AlekSi/golang-tip
 LABEL org.opencontainers.image.source=https://github.com/AlekSi/golang-tip
 ENV GOLANG_VERSION=tip

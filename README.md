@@ -13,9 +13,9 @@ docker pull ghcr.io/aleksi/golang-tip:master
 
 Currently built branches / Docker tags (see [here](https://github.com/AlekSi/golang-tip/blob/main/.github/workflows/build.yml)):
 * `master` a.k.a tip, the next Go version
-* `dev.boringcrypto`
+* `dev.boringcrypto` – [BoringCrypto](https://github.com/golang/go/blob/dev.boringcrypto/README.boringcrypto.md)
 * `dev.fuzz` – [fuzz test support](https://github.com/golang/go/issues/44551)
-* `dev.go2go` – [Go with generics](https://github.com/golang/go/issues?q=label%3Agenerics)
+* `dev.go2go` – [Go with generics](https://github.com/golang/go/blob/dev.go2go/README.go2go.md)
 
 Based on [Go "Offical Image"](https://github.com/docker-library/golang) and inspired by [go-tip by Craig Peterson](https://github.com/captncraig/go-tip).
 

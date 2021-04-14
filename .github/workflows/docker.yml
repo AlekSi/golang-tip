@@ -1,5 +1,5 @@
 ---
-name: Build
+name: Docker
 on:
   schedule:
     # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
@@ -12,8 +12,8 @@ on:
   pull_request:
 
 jobs:
-  docker:
-    name: Docker
+  build:
+    name: Build
     timeout-minutes: 15
 
     strategy:
@@ -37,10 +37,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Start BuildKit builder
-        run: make up
+        run: make docker-up
 
       - name: Build Docker images
-        run: make build
+        run: make docker-build
 
       # skip push for PRs
 
@@ -50,6 +50,10 @@ jobs:
           docker login --username aleksi --password ${{ secrets.DOCKERHUB_TOKEN }}
           docker login ghcr.io --username aleksi --password ${{ secrets.GHCR_TOKEN }}
 
-      - name: Push Docker images
+      - name: Upload Docker images
         if: github.event_name != 'pull_request'
-        run: make push
+        run: |
+          docker tag golang-tip:$(GO_BRANCH) aleksi/golang-tip:$(GO_BRANCH)
+          docker tag golang-tip:$(GO_BRANCH) ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
+          docker push aleksi/golang-tip:$(GO_BRANCH)
+          docker push ghcr.io/aleksi/golang-tip:$(GO_BRANCH)

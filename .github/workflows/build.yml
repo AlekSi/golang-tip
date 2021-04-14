@@ -84,9 +84,10 @@ jobs:
         run: |
           set -x
           ulimit -H -a
+          sleep 1
           ulimit -S -a
-          [ "$(ulimit -H -n)" = "unlimited" ] || ulimit -S -n $(ulimit -H -n)
-          [ "$(ulimit -H -d)" = "unlimited" ] || ulimit -S -d $(ulimit -H -d)
+          sleep 1
+          ulimit -S -n 524288
 
       - name: Checkout
         uses: actions/checkout@v2

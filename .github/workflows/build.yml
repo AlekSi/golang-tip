@@ -43,12 +43,13 @@ jobs:
         run: make docker-build
 
       # skip push for PRs
+      # TODO move to `publish` job
 
       - name: Login into Docker registries
         if: github.event_name != 'pull_request'
         run: |
           docker login --username aleksi --password ${{ secrets.DOCKERHUB_TOKEN }}
-          docker login ghcr.io --username aleksi --password ${{ secrets.GHCR_TOKEN }}
+          docker login ghcr.io --username aleksi --password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Docker images
         if: github.event_name != 'pull_request'
@@ -86,8 +87,29 @@ jobs:
       - name: Build .tar.gz file
         run: make targz-build
 
-      # skip push for PRs
-      - name: Upload .tar.gz file
-        run: |
-          mv golang-tip.tar.gz golang-tip.$(go env GOOS)-$(go env GOARCH).tar.gz
-          ls -al
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: ${{ matrix.os }} ${{ matrix.branch }}
+          path: golang-tip.tar.gz
+          if-no-files-found: error
+
+  publish:
+    name: Publish
+    needs: [docker, targz]
+    # if: github.event_name != 'pull_request'
+    timeout-minutes: 15
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2.0.9
+
+      - name: Publish artifacts
+        uses: marvinpinto/action-automatic-releases@v1.1.1
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "tip"
+          draft: true
+          prerelease: true
+          title: "tip"

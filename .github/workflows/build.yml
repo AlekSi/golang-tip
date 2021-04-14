@@ -80,15 +80,6 @@ jobs:
       GO_BRANCH: ${{ matrix.branch }}
 
     steps:
-      - name: Fix limits
-        run: |
-          set -x
-          ulimit -H -a
-          sleep 1
-          ulimit -S -a
-          sleep 1
-          ulimit -S -n $(ulimit -H -n)
-
       - name: Checkout
         uses: actions/checkout@v2
 

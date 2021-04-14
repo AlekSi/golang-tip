@@ -34,6 +34,11 @@ jobs:
       GO_BRANCH: ${{ matrix.branch }}
 
     steps:
+      - name: Fix limits
+        run: |
+          ulimit -n 4096
+          ulimit -s 4096
+
       - name: Checkout
         uses: actions/checkout@v2
 

@@ -87,7 +87,7 @@ jobs:
           sleep 1
           ulimit -S -a
           sleep 1
-          ulimit -S -n 524288
+          ulimit -S -n 50000
 
       - name: Checkout
         uses: actions/checkout@v2

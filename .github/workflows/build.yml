@@ -6,6 +6,8 @@ on:
     # > Note: The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs.
     # > High load times include the start of every hour. To decrease the chance of delay, schedule your workflow to run at a different time of the hour.
     - cron: '48 2 * * *'
+    # For monthly autoreleases TODO
+    - cron: '48 1 15 * *'
   push:
     branches:
       - main
@@ -87,10 +89,35 @@ jobs:
       - name: Build .tar.gz file
         run: make targz-build
 
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: ${{ matrix.os }} ${{ matrix.branch }}
+          name: ${{ matrix.os }}-${{ matrix.branch }}.tar.gz
           path: golang-tip.tar.gz
           if-no-files-found: error
 
@@ -111,9 +138,11 @@ jobs:
       - name: Publish artifacts
         uses: marvinpinto/action-automatic-releases@v1.1.1
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "tip"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: tip
           draft: true
           prerelease: true
-          title: "testing, do not use"
-          files: "*.tar.gz"
+          title: testing, do not use
+          files: '*.tar.gz'
+
+      # TODO monthly autoreleases

@@ -56,10 +56,10 @@ jobs:
       - name: Upload Docker images
         if: github.event_name != 'pull_request'
         run: |
-          docker tag golang-tip:$(GO_BRANCH) aleksi/golang-tip:$(GO_BRANCH)
-          docker tag golang-tip:$(GO_BRANCH) ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
-          docker push aleksi/golang-tip:$(GO_BRANCH)
-          docker push ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
+          docker tag golang-tip:${{ env.GO_BRANCH }} aleksi/golang-tip:${{ env.GO_BRANCH }}
+          docker tag golang-tip:${{ env.GO_BRANCH }} ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
+          docker push aleksi/golang-tip:${{ env.GO_BRANCH }}
+          docker push ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
 
   targz:
     name: TarGz

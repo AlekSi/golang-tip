@@ -90,7 +90,7 @@ jobs:
         run: make targz-build
 
       - name: Set artifact name
-        run: echo 'ARTIFACT_NAME=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH).tar.gz' >> $GITHUB_ENV
+        run: echo ARTIFACT_NAME=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH).tar.gz >> $GITHUB_ENV
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3

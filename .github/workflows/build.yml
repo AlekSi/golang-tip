@@ -1,5 +1,5 @@
 ---
-name: Docker
+name: Build
 on:
   schedule:
     # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
@@ -12,8 +12,8 @@ on:
   pull_request:
 
 jobs:
-  build:
-    name: Build
+  docker:
+    name: Docker
     timeout-minutes: 15
 
     strategy:
@@ -57,3 +57,45 @@ jobs:
           docker tag golang-tip:$(GO_BRANCH) ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
           docker push aleksi/golang-tip:$(GO_BRANCH)
           docker push ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
+
+  targz:
+    name: TarGz
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+          - macos-10.15
+        branch:
+          - master
+          - dev.boringcrypto
+          - dev.fuzz
+          - dev.go2go
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      GO_BRANCH: ${{ matrix.branch }}
+
+    steps:
+      - name: Fix limits
+        run: |
+          set -x
+          ulimit -H -a
+          ulimit -S -a
+          [ "$(ulimit -H -n)" = "unlimited" ] || ulimit -S -n $(ulimit -H -n)
+          [ "$(ulimit -H -d)" = "unlimited" ] || ulimit -S -d $(ulimit -H -d)
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build .tar.gz file
+        run: make targz-build
+
+      # skip push for PRs
+      - name: Upload .tar.gz file
+        run: |
+          mv golang-tip.tar.gz golang-tip.$(go env GOOS)-$(go env GOARCH).tar.gz
+          ls -al

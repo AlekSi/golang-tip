@@ -1,12 +1,16 @@
-all: build
+GO_BRANCH ?= master
 
-up:
+all: docker-build targz-build
+
+docker-up:
 	docker buildx create --driver docker-container --name golang-tip
 
-down:
+docker-down:
 	docker buildx rm golang-tip
 
-build:
+docker-build:
+	test -n "$(GO_BRANCH)"
+
 	docker buildx build \
 		--builder golang-tip \
 		--output type=docker \
@@ -15,10 +19,14 @@ build:
 		--build-arg CACHEBUST=$(shell date +%s) \
 		.
 
-	docker tag golang-tip:$(GO_BRANCH) aleksi/golang-tip:$(GO_BRANCH)
-	docker tag golang-tip:$(GO_BRANCH) ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
-	docker rmi golang-tip:$(GO_BRANCH)
+# TODO run tests when limits problem is fixed
+targz-build:
+	test -n "$(GO_BRANCH)"
 
-push:
-	docker push aleksi/golang-tip:$(GO_BRANCH)
-	docker push ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
+	rm -fr /tmp/golang-tip /tmp/go
+	git clone --branch $(GO_BRANCH) https://go.googlesource.com/go /tmp/golang-tip
+	cd /tmp/golang-tip/src && env GOROOT_FINAL=/usr/local/go ./make.bash
+	rm -fr /tmp/golang-tip/.git
+	mv /tmp/golang-tip /tmp/go
+	tar -czf golang-tip.tar.gz -C /tmp go
+	rm -fr /tmp/go

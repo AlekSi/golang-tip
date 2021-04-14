@@ -1,6 +1,7 @@
 # golang-tip
 
-[![Build](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml/badge.svg)](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml)
+[![Docker](https://github.com/AlekSi/golang-tip/actions/workflows/docker.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/docker.yml)
+[![TarGz](https://github.com/AlekSi/golang-tip/actions/workflows/targz.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/targz.yml)
 
 Daily builds of [active Go development branches](https://github.com/golang/go/branches/active).
 Available on both [Docker Hub](https://hub.docker.com/r/aleksi/golang-tip)
@@ -17,6 +18,6 @@ Currently built branches / Docker tags (see [here](https://github.com/AlekSi/gol
 * `dev.fuzz` – [fuzz test support](https://github.com/golang/go/issues/44551)
 * `dev.go2go` – [Go with generics](https://github.com/golang/go/blob/dev.go2go/README.go2go.md)
 
-Based on [Go "Offical Image"](https://github.com/docker-library/golang) and inspired by [go-tip by Craig Peterson](https://github.com/captncraig/go-tip).
+Based on [Go "Official Image"](https://github.com/docker-library/golang) and inspired by [go-tip by Craig Peterson](https://github.com/captncraig/go-tip).
 
 Pull requests that add other branches, base images, OSes, and CPU architectures are welcome.

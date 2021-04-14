@@ -6,6 +6,8 @@ on:
     # > Note: The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs.
     # > High load times include the start of every hour. To decrease the chance of delay, schedule your workflow to run at a different time of the hour.
     - cron: '48 2 * * *'
+    # For monthly autoreleases TODO
+    - cron: '48 1 15 * *'
   push:
     branches:
       - main
@@ -37,19 +39,93 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Start BuildKit builder
-        run: make up
+        run: make docker-up
 
       - name: Build Docker images
-        run: make build
+        run: make docker-build
 
       # skip push for PRs
+      # TODO move to `publish` job
 
       - name: Login into Docker registries
         if: github.event_name != 'pull_request'
         run: |
           docker login --username aleksi --password ${{ secrets.DOCKERHUB_TOKEN }}
-          docker login ghcr.io --username aleksi --password ${{ secrets.GHCR_TOKEN }}
+          docker login ghcr.io --username aleksi --password ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push Docker images
+      - name: Upload Docker images
         if: github.event_name != 'pull_request'
-        run: make push
+        run: |
+          docker tag golang-tip:$(GO_BRANCH) aleksi/golang-tip:$(GO_BRANCH)
+          docker tag golang-tip:$(GO_BRANCH) ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
+          docker push aleksi/golang-tip:$(GO_BRANCH)
+          docker push ghcr.io/aleksi/golang-tip:$(GO_BRANCH)
+
+  targz:
+    name: TarGz
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-20.04
+          - macos-10.15
+        branch:
+          - master
+          - dev.boringcrypto
+          - dev.fuzz
+          - dev.go2go
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      GO_BRANCH: ${{ matrix.branch }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build .tar.gz file
+        run: make targz-build
+
+      - name: Set artifact name and path
+        run: |
+          echo ARTIFACT_NAME=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH) >> $GITHUB_ENV
+          echo ARTIFACT_PATH=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH).tar.gz >> $GITHUB_ENV
+
+      - name: Rename artifact
+        run: mv golang-tip.tar.gz ${{ env.ARTIFACT_PATH }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2.2.3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.ARTIFACT_PATH }}
+          if-no-files-found: error
+
+  publish:
+    name: Publish
+    needs: [docker, targz]
+    if: github.event_name != 'pull_request'
+    timeout-minutes: 15
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2.0.9
+
+      - name: List artifacts
+        run: ls -lR
+
+      - name: Publish artifacts
+        uses: marvinpinto/action-automatic-releases@v1.1.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: tip
+          prerelease: true
+          title: tip
+          files: |
+            **.tar.gz
+
+      # TODO monthly autoreleases

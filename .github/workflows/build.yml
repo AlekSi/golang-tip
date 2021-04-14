@@ -96,7 +96,8 @@ jobs:
 
   publish:
     name: Publish
-    needs: [docker, targz]
+    needs: [targz]
+    # needs: [docker, targz]
     # if: github.event_name != 'pull_request'
     timeout-minutes: 15
     runs-on: ubuntu-20.04
@@ -105,6 +106,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2.0.9
 
+      - run: ls -al
+
       - name: Publish artifacts
         uses: marvinpinto/action-automatic-releases@v1.1.1
         with:
@@ -112,4 +115,5 @@ jobs:
           automatic_release_tag: "tip"
           draft: true
           prerelease: true
-          title: "tip"
+          title: "testing, do not use"
+          files: *.tar.gz

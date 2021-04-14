@@ -112,16 +112,16 @@ jobs:
         uses: actions/download-artifact@v2.0.9
 
       - name: List artifacts
-        run: ls -al
+        run: ls -lR
 
       - name: Publish artifacts
         uses: marvinpinto/action-automatic-releases@v1.1.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: tip
-          draft: true
           prerelease: true
           title: testing, do not use
-          files: '*.tar.gz'
+          files: |
+            **.tar.gz
 
       # TODO monthly autoreleases

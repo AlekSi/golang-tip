@@ -44,3 +44,4 @@ jobs:
       - name: Upload .tar.gz file
         run: |
           mv golang-tip.tar.gz golang-tip.$(go env GOOS)-$(go env GOARCH).tar.gz
+          ls -al

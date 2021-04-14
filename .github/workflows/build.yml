@@ -116,4 +116,4 @@ jobs:
           draft: true
           prerelease: true
           title: "testing, do not use"
-          files: *.tar.gz
+          files: "*.tar.gz"

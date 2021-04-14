@@ -1,7 +1,6 @@
 # golang-tip
 
-[![Docker](https://github.com/AlekSi/golang-tip/actions/workflows/docker.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/docker.yml)
-[![TarGz](https://github.com/AlekSi/golang-tip/actions/workflows/targz.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/targz.yml)
+[![Build](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml)
 
 Daily builds of [active Go development branches](https://github.com/golang/go/branches/active).
 Available on both [Docker Hub](https://hub.docker.com/r/aleksi/golang-tip)

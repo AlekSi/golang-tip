@@ -36,8 +36,10 @@ jobs:
     steps:
       - name: Fix limits
         run: |
-          ulimit -n 4096
-          ulimit -s 4096
+          ulimit -H -a
+          ulimit -S -a
+          [ "$(ulimit -H -n)" = "unlimited" ] || ulimit -S -n $(ulimit -H -n)
+          [ "$(ulimit -H -d)" = "unlimited" ] || ulimit -S -d $(ulimit -H -d)
 
       - name: Checkout
         uses: actions/checkout@v2

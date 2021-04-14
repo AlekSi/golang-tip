@@ -124,7 +124,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: tip
           prerelease: true
-          title: testing, do not use
+          title: tip
           files: |
             **.tar.gz
 

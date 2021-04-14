@@ -106,9 +106,8 @@ jobs:
 
   publish:
     name: Publish
-    needs: [targz]
-    # needs: [docker, targz]
-    # if: github.event_name != 'pull_request'
+    needs: [docker, targz]
+    if: github.event_name != 'pull_request'
     timeout-minutes: 15
     runs-on: ubuntu-20.04
 

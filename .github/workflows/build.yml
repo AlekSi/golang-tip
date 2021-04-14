@@ -123,7 +123,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: tip
-          prerelease: true
+          prerelease: false
           title: tip
           files: |
             **.tar.gz

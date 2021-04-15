@@ -19,14 +19,14 @@ docker-build:
 		--build-arg CACHEBUST=$(shell date +%s) \
 		.
 
-# TODO run tests when limits problem is fixed
+# run tests when limits problem is fixed
+# TODO https://github.com/AlekSi/golang-tip/issues/4
 targz-build:
 	test -n "$(GO_BRANCH)"
 
-	rm -fr /tmp/golang-tip /tmp/go
+	rm -fr /tmp/golang-tip
 	git clone --branch $(GO_BRANCH) https://go.googlesource.com/go /tmp/golang-tip
-	cd /tmp/golang-tip/src && env GOROOT_FINAL=/usr/local/go ./make.bash
+	cd /tmp/golang-tip/src && env GOROOT_FINAL=/usr/local/golang-tip ./make.bash
 	rm -fr /tmp/golang-tip/.git
-	mv /tmp/golang-tip /tmp/go
-	tar -czf golang-tip.tar.gz -C /tmp go
-	rm -fr /tmp/go
+	tar -czf golang-tip.tar.gz -C /tmp golang-tip
+	rm -fr /tmp/golang-tip

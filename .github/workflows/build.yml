@@ -6,8 +6,9 @@ on:
     # > Note: The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs.
     # > High load times include the start of every hour. To decrease the chance of delay, schedule your workflow to run at a different time of the hour.
     - cron: '48 2 * * *'
-    # For monthly autoreleases TODO
-    - cron: '48 1 15 * *'
+    # For weekly autoreleases
+    # TODO https://github.com/AlekSi/golang-tip/issues/5
+    # - cron: '48 1 * * 0'
   push:
     branches:
       - main
@@ -127,5 +128,3 @@ jobs:
           title: tip
           files: |
             **.tar.gz
-
-      # TODO monthly autoreleases

@@ -46,7 +46,8 @@ jobs:
         run: make docker-build
 
       # skip push for PRs
-      # TODO move to `publish` job
+      # move to `publish` job
+      # TODO https://github.com/AlekSi/golang-tip/issues/8
 
       - name: Login into Docker registries
         if: github.event_name != 'pull_request'

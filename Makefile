@@ -21,6 +21,9 @@ docker-build:
 
 # run tests when limits problem is fixed
 # TODO https://github.com/AlekSi/golang-tip/issues/4
+#
+# install std with -race
+# TODO https://github.com/AlekSi/golang-tip/issues/11
 targz-build:
 	test -n "$(GO_BRANCH)"
 

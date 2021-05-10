@@ -78,11 +78,15 @@ jobs:
           - dev.boringcrypto
           - dev.fuzz
           - dev.go2go
+        goroot:
+          - /usr/local/go
+          - /tmp/golang-tip
 
     runs-on: ${{ matrix.os }}
 
     env:
       GO_BRANCH: ${{ matrix.branch }}
+      GOROOT_FINAL: ${{ matrix.goroot }}
 
     steps:
       - name: Checkout
@@ -91,25 +95,28 @@ jobs:
       - name: Build .tar.gz file
         run: make targz-build
 
-      - name: Set artifact name and path
+      - name: Set artifact suffix
+        if: startsWith(env.GOROOT_FINAL, '/tmp/')
         run: |
-          echo ARTIFACT_NAME=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH) >> $GITHUB_ENV
-          echo ARTIFACT_PATH=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH).tar.gz >> $GITHUB_ENV
+          echo ARTIFACT_SUFFIX=.tmp >> $GITHUB_ENV
+
+      - name: Set artifact name
+        run: |
+          echo ARTIFACT_NAME=${{ env.GO_BRANCH }}.$(go env GOOS)-$(go env GOARCH)${{ env.ARTIFACT_SUFFIX }} >> $GITHUB_ENV
 
       - name: Rename artifact
-        run: mv golang-tip.tar.gz ${{ env.ARTIFACT_PATH }}
+        run: mv golang-tip.tar.gz ${{ env.ARTIFACT_NAME }}.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ env.ARTIFACT_PATH }}
+          path: ${{ env.ARTIFACT_NAME }}.tar.gz
           if-no-files-found: error
 
   publish:
     name: Publish
     needs: [docker, targz]
-    if: github.event_name != 'pull_request'
     timeout-minutes: 15
     runs-on: ubuntu-20.04
 
@@ -121,11 +128,25 @@ jobs:
         run: ls -lR
 
       - name: Publish artifacts
-        uses: marvinpinto/action-automatic-releases@v1.1.1
+        if: github.event_name != 'pull_request'
+        uses: marvinpinto/action-automatic-releases@v1.2.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: tip
-          prerelease: false
           title: tip
+          prerelease: false
+          draft: false
+          files: |
+            **.tar.gz
+
+      - name: Publish PR artifacts
+        if: github.event_name == 'pull_request'
+        uses: marvinpinto/action-automatic-releases@v1.2.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: test
+          title: Test release by pull request; do not use
+          prerelease: true
+          draft: true
           files: |
             **.tar.gz

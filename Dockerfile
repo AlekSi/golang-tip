@@ -10,6 +10,8 @@ RUN echo "$CACHEBUST"
 ARG GO_BRANCH
 RUN test -n "$GO_BRANCH"
 
+ENV GOLANG_VERSION=${GO_BRANCH}
+
 RUN cd /tmp/golang-tip && \
     git reset --hard && \
     git clean -xdf && \
@@ -17,7 +19,6 @@ RUN cd /tmp/golang-tip && \
     git checkout "$GO_BRANCH" && \
     git pull
 
-ENV GOLANG_VERSION=tip
 # RUN cd /tmp/golang-tip/src && env GOROOT_FINAL=/usr/local/go ./all.bash
 # TODO https://github.com/AlekSi/golang-tip/issues/3
 RUN cd /tmp/golang-tip/src && env GOROOT_FINAL=/usr/local/go ./make.bash

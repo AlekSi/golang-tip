@@ -26,9 +26,9 @@ jobs:
           - ubuntu-20.04
         branch:
           - master
-          # - dev.boringcrypto
-          # - dev.fuzz
-          # - dev.go2go
+          - dev.boringcrypto
+          - dev.fuzz
+          - dev.go2go
 
     runs-on: ${{ matrix.os }}
 
@@ -75,9 +75,9 @@ jobs:
           - macos-10.15
         branch:
           - master
-          # - dev.boringcrypto
-          # - dev.fuzz
-          # - dev.go2go
+          - dev.boringcrypto
+          - dev.fuzz
+          - dev.go2go
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

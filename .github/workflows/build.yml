@@ -95,19 +95,23 @@ jobs:
       - name: Build .tar.gz file
         run: make targz-build
 
-      - name: Set artifact name and path
+      - name: Set artifact suffix
+        if: startsWith(env.GOROOT_FINAL, '/tmp/')
         run: |
-          echo ARTIFACT_NAME=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH) >> $GITHUB_ENV
-          echo ARTIFACT_PATH=${{ matrix.branch }}.$(go env GOOS)-$(go env GOARCH).tar.gz >> $GITHUB_ENV
+          echo ARTIFACT_SUFFIX=.tmp >> $GITHUB_ENV
+
+      - name: Set artifact name
+        run: |
+          echo ARTIFACT_NAME=${{ env.GO_BRANCH }}.$(go env GOOS)-$(go env GOARCH)${{ env.ARTIFACT_SUFFIX }} >> $GITHUB_ENV
 
       - name: Rename artifact
-        run: mv golang-tip.tar.gz ${{ env.ARTIFACT_PATH }}
+        run: mv golang-tip.tar.gz ${{ env.ARTIFACT_NAME }}.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2.2.3
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ env.ARTIFACT_PATH }}
+          path: ${{ env.ARTIFACT_NAME }}.tar.gz
           if-no-files-found: error
 
   publish:

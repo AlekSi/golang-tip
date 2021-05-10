@@ -26,9 +26,9 @@ jobs:
           - ubuntu-20.04
         branch:
           - master
-          - dev.boringcrypto
-          - dev.fuzz
-          - dev.go2go
+          # - dev.boringcrypto
+          # - dev.fuzz
+          # - dev.go2go
 
     runs-on: ${{ matrix.os }}
 
@@ -72,15 +72,15 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - macos-10.15
+          # - macos-10.15
         branch:
           - master
-          - dev.boringcrypto
-          - dev.fuzz
-          - dev.go2go
+          # - dev.boringcrypto
+          # - dev.fuzz
+          # - dev.go2go
         goroot:
           - /usr/local/go
-          - /tmp/golang-tip
+          # - /tmp/golang-tip
 
     runs-on: ${{ matrix.os }}
 
@@ -124,8 +124,11 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2.0.9
 
-      - name: List artifacts
-        run: ls -lR
+      - name: Calculate checksums
+        run: |
+          ls -lR
+          sha512sum * > SHA512SUM
+          cat SHA512SUM
 
       - name: Publish artifacts
         if: github.event_name != 'pull_request'

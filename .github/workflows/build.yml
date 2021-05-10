@@ -147,6 +147,6 @@ jobs:
           automatic_release_tag: test
           title: Test release by pull request; do not use
           prerelease: true
-          draft: true
+          draft: false
           files: |
             **.tar.gz

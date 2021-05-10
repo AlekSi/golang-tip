@@ -32,5 +32,5 @@ targz-build:
 	git clone --branch $(GO_BRANCH) https://go.googlesource.com/go /tmp/golang-tip/$(shell basename $(GOROOT_FINAL))
 	cd /tmp/golang-tip/$(shell basename $(GOROOT_FINAL))/src && env GOROOT_FINAL=$(GOROOT_FINAL) ./make.bash
 	rm -fr /tmp/golang-tip/$(shell basename $(GOROOT_FINAL))/.git
-	tar -czf golang-tip.tar.gz -C /tmp --strip-components 1 golang-tip
+	tar -czf golang-tip.tar.gz -C /tmp/golang-tip $(shell basename $(GOROOT_FINAL))
 	rm -fr /tmp/golang-tip

@@ -78,11 +78,15 @@ jobs:
           - dev.boringcrypto
           - dev.fuzz
           - dev.go2go
+        goroot:
+          - /usr/local/go
+          - /tmp/golang-tip
 
     runs-on: ${{ matrix.os }}
 
     env:
       GO_BRANCH: ${{ matrix.branch }}
+      GOROOT_FINAL: ${{ matrix.goroot }}
 
     steps:
       - name: Checkout
@@ -109,7 +113,6 @@ jobs:
   publish:
     name: Publish
     needs: [docker, targz]
-    if: github.event_name != 'pull_request'
     timeout-minutes: 15
     runs-on: ubuntu-20.04
 
@@ -121,11 +124,25 @@ jobs:
         run: ls -lR
 
       - name: Publish artifacts
-        uses: marvinpinto/action-automatic-releases@v1.1.1
+        if: github.event_name != 'pull_request'
+        uses: marvinpinto/action-automatic-releases@v1.2.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: tip
-          prerelease: false
           title: tip
+          prerelease: false
+          draft: false
+          files: |
+            **.tar.gz
+
+      - name: Publish PR artifacts
+        if: github.event_name == 'pull_request'
+        uses: marvinpinto/action-automatic-releases@v1.2.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: test
+          title: test
+          prerelease: true
+          draft: true
           files: |
             **.tar.gz

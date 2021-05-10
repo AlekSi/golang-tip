@@ -1,4 +1,4 @@
-FROM golang:1.16.3
+FROM golang:1.16.4
 
 # make sure that following steps are not cached;
 # mostly for local testing, not for GitHub Actions

@@ -126,9 +126,7 @@ jobs:
 
       - name: Calculate checksums
         run: |
-          ls -lR
-          sha512sum * > SHA512SUM
-          cat SHA512SUM
+          go run tipper.go -checksum -timestamp
 
       - name: Publish artifacts
         if: github.event_name != 'pull_request'
@@ -141,6 +139,7 @@ jobs:
           draft: false
           files: |
             **.tar.gz
+            *.txt
 
       - name: Publish PR artifacts
         if: github.event_name == 'pull_request'

@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/fs"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -39,7 +39,7 @@ func createChecksumFile() {
 	lines := make(chan string)
 
 	go func() {
-		err := filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
+		err := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
@@ -103,7 +103,7 @@ func createChecksumFile() {
 
 func createTimestampFile() {
 	name := fmt.Sprintf("Built on %s.txt", time.Now().UTC().Format(time.RFC3339))
-	if err := os.WriteFile(name, nil, 0o644); err != nil {
+	if err := ioutil.WriteFile(name, nil, 0o644); err != nil {
 		log.Fatal(err)
 	}
 

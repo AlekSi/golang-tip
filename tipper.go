@@ -102,8 +102,10 @@ func createChecksumFile() {
 }
 
 func createTimestampFile() {
-	name := fmt.Sprintf("Built on %s.txt", time.Now().UTC().Format(time.RFC3339))
-	if err := ioutil.WriteFile(name, nil, 0o644); err != nil {
+	now := time.Now().UTC()
+	name := fmt.Sprintf("Built on %s.txt", now.Format(time.RFC3339))
+	data := []byte(fmt.Sprintf("Built on %s.\n", now.Format(time.RFC3339)))
+	if err := ioutil.WriteFile(name, data, 0o644); err != nil {
 		log.Fatal(err)
 	}
 

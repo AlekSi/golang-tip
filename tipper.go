@@ -118,6 +118,9 @@ func main() {
 
 	for _, cmd := range flag.Args() {
 		switch cmd {
+		case "all":
+			createChecksumFile()
+			createTimestampFile()
 		case "checksum":
 			createChecksumFile()
 		case "timestamp":

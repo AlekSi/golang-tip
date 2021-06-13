@@ -127,9 +127,9 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2.0.9
 
-      - name: Calculate checksums
+      - name: Prepare files
         run: |
-          go run tipper.go -checksum -timestamp
+          go run tipper.go all
 
       - name: Publish artifacts
         if: github.event_name != 'pull_request'
@@ -155,3 +155,4 @@ jobs:
           draft: false
           files: |
             **.tar.gz
+            *.txt

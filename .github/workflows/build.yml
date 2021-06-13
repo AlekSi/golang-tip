@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Start BuildKit builder
         run: make docker-up
@@ -90,7 +90,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Build .tar.gz file
         run: make targz-build
@@ -121,15 +121,18 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
       - name: Download artifacts
         uses: actions/download-artifact@v2.0.9
 
-      - name: List artifacts
-        run: ls -lR
+      - name: Prepare files
+        run: go run tipper.go all
 
       - name: Publish artifacts
         if: github.event_name != 'pull_request'
-        uses: marvinpinto/action-automatic-releases@v1.2.0
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: tip
@@ -138,10 +141,11 @@ jobs:
           draft: false
           files: |
             **.tar.gz
+            *.txt
 
       - name: Publish PR artifacts
         if: github.event_name == 'pull_request'
-        uses: marvinpinto/action-automatic-releases@v1.2.0
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: test
@@ -150,3 +154,4 @@ jobs:
           draft: false
           files: |
             **.tar.gz
+            *.txt

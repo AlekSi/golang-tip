@@ -17,7 +17,7 @@ on:
 jobs:
   docker:
     name: Docker
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     strategy:
       fail-fast: false
@@ -65,7 +65,7 @@ jobs:
 
   targz:
     name: TarGz
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     strategy:
       fail-fast: false
@@ -117,7 +117,7 @@ jobs:
   publish:
     name: Publish
     needs: [docker, targz]
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-20.04
 
     steps:

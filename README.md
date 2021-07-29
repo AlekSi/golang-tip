@@ -1,6 +1,7 @@
 # golang-tip
 
 [![Build](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/AlekSi/golang-tip)](https://goreportcard.com/report/github.com/AlekSi/golang-tip)
 
 Daily builds of [active Go development branches](https://github.com/golang/go/branches/active).
 Available as:

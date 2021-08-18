@@ -28,8 +28,6 @@ jobs:
           - master
           - dev.boringcrypto
           - dev.fuzz
-          - dev.go2go
-          - dev.typeparams
           - dev.cmdgo
 
     runs-on: ${{ matrix.os }}
@@ -79,8 +77,6 @@ jobs:
           - master
           - dev.boringcrypto
           - dev.fuzz
-          - dev.go2go
-          - dev.typeparams
           - dev.cmdgo
         goroot:
           - /usr/local/go

@@ -28,7 +28,6 @@ jobs:
           - master
           - dev.boringcrypto
           - dev.fuzz
-          - dev.cmdgo
 
     runs-on: ${{ matrix.os }}
 
@@ -77,7 +76,6 @@ jobs:
           - master
           - dev.boringcrypto
           - dev.fuzz
-          - dev.cmdgo
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

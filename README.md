@@ -44,7 +44,6 @@ Currently built branches (see [here](https://github.com/AlekSi/golang-tip/blob/m
 * `master` a.k.a tip, the next Go version (now with generics!)
 * `dev.boringcrypto` – [BoringCrypto](https://github.com/golang/go/blob/dev.boringcrypto/README.boringcrypto.md)
 * `dev.fuzz` – [fuzz test support](https://github.com/golang/go/issues/44551)
-* `dev.cmdgo` - [`cmd/go` development during the freeze](https://github.com/golang/go/issues/43084)
 
 
 # Docker

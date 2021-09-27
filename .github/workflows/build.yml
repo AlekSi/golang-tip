@@ -27,7 +27,6 @@ jobs:
         branch:
           - master
           - dev.boringcrypto
-          - dev.fuzz
 
     runs-on: ${{ matrix.os }}
 
@@ -75,7 +74,6 @@ jobs:
         branch:
           - master
           - dev.boringcrypto
-          - dev.fuzz
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

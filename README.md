@@ -41,41 +41,12 @@ rm -rf /tmp/golang-tip && tar -C /tmp -xzf master.tmp.tar.gz
 
 Examples for using golang-tip in a GitHub Action.
 
-### Container image
-
-> This example shows how you can use golang-tip's prebuilt container image
-directly within your GitHub Action Workflow. All `steps` are executed within
-the container image at `ghcr.io/aleksi/golang-tip:master` for the `test-my-app`
-Job. This Actions workflow takes approximately 60 seconds to run.
-
-```yaml
-# Run your Job within latest golang-tip built container.
-# Use head of golang-tip aka "master" or other available image tags here:
-# https://github.com/AlekSi/golang-tip/pkgs/container/golang-tip
-
-# action.yml
----
-name: Go unit tests with golang-tip
-on:
-  pull_request:
-jobs:
-  test-my-app-oci:
-    name: test my golang app using golang-tip container release
-    runs-on: ubuntu-latest
-    container:
-    # image: ghcr.io/aleksi/golang-tip:dev.boringcrypto
-      image: ghcr.io/aleksi/golang-tip:master
-    steps:
-      - uses: actions/checkout@v2
-      - name: run tests
-        run: go test ./...
-```
-
 ### .tar.gz
 
 > This example shows how to use golang-tip's .tar.gz release format
 within a GitHub Actions runner. We first purge an existing Go installation.
-This Actions workflow takes approximately 12 seconds to run.
+If you are looking to save on Actions minutes, this workflow takes
+less than half the time to run as the container example below.
 
 ```yaml
 # Remove existing Go installation, install golang-tip from latest .tar.gz
@@ -100,6 +71,36 @@ jobs:
             https://github.com/AlekSi/golang-tip/releases/download/tip/master.linux-amd64.tar.gz
           sudo tar -C /usr/local -xzf go.tar.gz
           sudo ln -s /usr/local/go/bin/* /usr/local/bin/
+      - uses: actions/checkout@v2
+      - name: run tests
+        run: go test ./...
+```
+
+### Container image
+
+> This example shows how you can use golang-tip's prebuilt container image
+directly within your GitHub Action Workflow. All `steps` are executed within
+the container image at `ghcr.io/aleksi/golang-tip:master` for the `test-my-app`
+Job.
+
+```yaml
+# Run your Job within latest golang-tip built container.
+# Use head of golang-tip aka "master" or other available image tags here:
+# https://github.com/AlekSi/golang-tip/pkgs/container/golang-tip
+
+# action.yml
+---
+name: Go unit tests with golang-tip
+on:
+  pull_request:
+jobs:
+  test-my-app-oci:
+    name: test my golang app using golang-tip container release
+    runs-on: ubuntu-latest
+    container:
+    # image: ghcr.io/aleksi/golang-tip:dev.boringcrypto
+      image: ghcr.io/aleksi/golang-tip:master
+    steps:
       - uses: actions/checkout@v2
       - name: run tests
         run: go test ./...

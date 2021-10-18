@@ -74,7 +74,7 @@ jobs:
 ### .tar.gz
 
 > This example shows how to use golang-tip's .tar.gz release format
-within a GitHub Actions runner. We first purge an existing Golang installation.
+within a GitHub Actions runner. We first purge an existing Go installation.
 This Actions workflow takes approximately 12 seconds to run.
 
 ```yaml

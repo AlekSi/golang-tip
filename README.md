@@ -37,6 +37,37 @@ rm -rf /tmp/golang-tip && tar -C /tmp -xzf master.tmp.tar.gz
 /tmp/golang-tip/bin/go env
 ```
 
+## Using golang-tip in GitHub Actions
+
+Examples for using golang-tip in a GitHub Action.
+
+> This example shows how you can use golang-tip's prebuilt container image
+directly within your GitHub Action Workflow. All `steps` are executed within
+the container image at `ghcr.io/aleksi/golang-tip:master` for the `test-my-app`
+Job.
+
+```yaml
+# Run your Job within latest golang-tip built container.
+# Use head of golang-tip aka "master" or other available image tags here:
+# https://github.com/AlekSi/golang-tip/pkgs/container/golang-tip
+
+# action.yml
+---
+name: Go unit tests with golang-tip
+on:
+  pull_request:
+jobs:
+  test-my-app:
+    name: test my golang app using golang-tip
+    runs-on: ubuntu-latest
+    container:
+    # image: ghcr.io/aleksi/golang-tip:dev.boringcrypto
+      image: ghcr.io/aleksi/golang-tip:master
+    steps:
+      - uses: actions/checkout@v2
+      - name: run tests
+        run: go test ./...
+```
 
 # Branches
 

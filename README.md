@@ -41,10 +41,12 @@ rm -rf /tmp/golang-tip && tar -C /tmp -xzf master.tmp.tar.gz
 
 Examples for using golang-tip in a GitHub Action.
 
+### Container image
+
 > This example shows how you can use golang-tip's prebuilt container image
 directly within your GitHub Action Workflow. All `steps` are executed within
 the container image at `ghcr.io/aleksi/golang-tip:master` for the `test-my-app`
-Job.
+Job. This Actions workflow takes approximately 60 seconds to run.
 
 ```yaml
 # Run your Job within latest golang-tip built container.
@@ -57,13 +59,47 @@ name: Go unit tests with golang-tip
 on:
   pull_request:
 jobs:
-  test-my-app:
-    name: test my golang app using golang-tip
+  test-my-app-oci:
+    name: test my golang app using golang-tip container release
     runs-on: ubuntu-latest
     container:
     # image: ghcr.io/aleksi/golang-tip:dev.boringcrypto
       image: ghcr.io/aleksi/golang-tip:master
     steps:
+      - uses: actions/checkout@v2
+      - name: run tests
+        run: go test ./...
+```
+
+### .tar.gz
+
+> This example shows how to use golang-tip's .tar.gz release format
+within a GitHub Actions runner. We first purge an existing Golang installation.
+This Actions workflow takes approximately 12 seconds to run.
+
+```yaml
+# Remove existing Golang installation, install golang-tip from latest .tar.gz
+# More .tar.gz releases can be found here: https://github.com/AlekSi/golang-tip/releases/tag/tip
+
+# action.yml
+---
+name: Go unit tests with golang-tip
+on:
+  pull_request:
+jobs:
+  test-my-app-targz:
+    name: test my golang app using golang-tip .tar.gz release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove existing go installation from Actions runner
+        run: |
+          sudo rm -fr /opt/hostedtoolcache/go /usr/local/go /usr/bin/go /bin/go
+      - name: Install latest golang-tip on Actions runner
+        run: |
+          curl -o go.tar.gz -L \
+            https://github.com/AlekSi/golang-tip/releases/download/tip/master.linux-amd64.tar.gz
+          sudo tar -C /usr/local -xzf go.tar.gz
+          sudo ln -s /usr/local/go/bin/* /usr/local/bin/
       - uses: actions/checkout@v2
       - name: run tests
         run: go test ./...
@@ -92,7 +128,7 @@ FROM ghcr.io/aleksi/golang-tip:master
 ```
 
 
-# .tag.gz
+# .tar.gz
 
 `.tar.gz` files are provided in two variants. The main one behaves like [the official Go release](https://golang.org/doc/install) -
 it is expected to be unpacked into `/usr/local` as `/usr/local/go`:

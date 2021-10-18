@@ -78,7 +78,7 @@ within a GitHub Actions runner. We first purge an existing Go installation.
 This Actions workflow takes approximately 12 seconds to run.
 
 ```yaml
-# Remove existing Golang installation, install golang-tip from latest .tar.gz
+# Remove existing Go installation, install golang-tip from latest .tar.gz
 # More .tar.gz releases can be found here: https://github.com/AlekSi/golang-tip/releases/tag/tip
 
 # action.yml

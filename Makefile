@@ -24,7 +24,7 @@ docker-build:
 #
 # install std with -race
 # TODO https://github.com/AlekSi/golang-tip/issues/11
-targz-build:
+archive:
 	test -n "$(GO_BRANCH)"
 	test -n "$(GOROOT_FINAL)"
 
@@ -33,4 +33,5 @@ targz-build:
 	cd /tmp/golang-tip/$(shell basename $(GOROOT_FINAL))/src && env GOROOT_FINAL=$(GOROOT_FINAL) ./make.bash
 	rm -fr /tmp/golang-tip/$(shell basename $(GOROOT_FINAL))/.git
 	tar -czf golang-tip.tar.gz -C /tmp/golang-tip $(shell basename $(GOROOT_FINAL))
+	tar -I"zstd -19 -T0" -cf golang-tip.tar.zst -C /tmp/golang-tip $(shell basename $(GOROOT_FINAL))
 	rm -fr /tmp/golang-tip

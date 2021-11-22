@@ -62,8 +62,8 @@ jobs:
           docker push aleksi/golang-tip:${{ env.GO_BRANCH }}
           docker push ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
 
-  targz:
-    name: TarGz
+  tar:
+    name: Tar archives
     timeout-minutes: 20
 
     strategy:
@@ -89,8 +89,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.5
 
-      - name: Build .tar.gz file
-        run: make targz-build
+      - name: Build archives
+        run: make archive
 
       - name: Set artifact suffix
         if: startsWith(env.GOROOT_FINAL, '/tmp/')
@@ -101,19 +101,28 @@ jobs:
         run: |
           echo ARTIFACT_NAME=${{ env.GO_BRANCH }}.$(go env GOOS)-$(go env GOARCH)${{ env.ARTIFACT_SUFFIX }} >> $GITHUB_ENV
 
-      - name: Rename artifact
-        run: mv golang-tip.tar.gz ${{ env.ARTIFACT_NAME }}.tar.gz
+      - name: Rename artifacts
+        run: |
+          mv golang-tip.tar.gz ${{ env.ARTIFACT_NAME }}.tar.gz
+          mv golang-tip.tar.zst ${{ env.ARTIFACT_NAME }}.tar.zst
 
-      - name: Upload artifact
+      - name: Upload gz
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: ${{ env.ARTIFACT_NAME }}
+          name: ${{ env.ARTIFACT_NAME }}-gz
           path: ${{ env.ARTIFACT_NAME }}.tar.gz
+          if-no-files-found: error
+
+      - name: Upload zst
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-zst
+          path: ${{ env.ARTIFACT_NAME }}.tar.zst
           if-no-files-found: error
 
   publish:
     name: Publish
-    needs: [docker, targz]
+    needs: [docker, tar]
     timeout-minutes: 10
     runs-on: ubuntu-20.04
 
@@ -138,6 +147,7 @@ jobs:
           draft: false
           files: |
             **.tar.gz
+            **.tar.zst
             *.txt
 
       - name: Publish PR artifacts
@@ -151,4 +161,5 @@ jobs:
           draft: false
           files: |
             **.tar.gz
+            **.tar.zst
             *.txt

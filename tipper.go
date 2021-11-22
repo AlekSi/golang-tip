@@ -51,7 +51,7 @@ func createChecksumFile() {
 				return nil
 			}
 
-			if !strings.HasSuffix(path, ".tar.gz") {
+			if !(strings.HasSuffix(path, ".tar.gz") || strings.HasSuffix(path, ".tar.zst")) {
 				return nil
 			}
 

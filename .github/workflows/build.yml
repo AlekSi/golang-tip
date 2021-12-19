@@ -105,7 +105,7 @@ jobs:
         run: mv golang-tip.tar.gz ${{ env.ARTIFACT_NAME }}.tar.gz
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2.3.0
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: ${{ env.ARTIFACT_NAME }}.tar.gz

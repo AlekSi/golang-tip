@@ -109,8 +109,8 @@ jobs:
 # Branches
 
 Currently built branches (see [here](https://github.com/AlekSi/golang-tip/blob/main/.github/workflows/build.yml)):
-* `master` a.k.a tip, the next Go version (now with generics and fuzz test support!)
-* `dev.boringcrypto` – [BoringCrypto](https://github.com/golang/go/blob/dev.boringcrypto/README.boringcrypto.md)
+* `master` a.k.a tip, the next Go version;
+* `dev.boringcrypto` – [BoringCrypto](https://github.com/golang/go/blob/dev.boringcrypto/README.boringcrypto.md).
 
 
 # Docker

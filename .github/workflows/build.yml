@@ -76,6 +76,7 @@ jobs:
         branch:
           - master
           - dev.boringcrypto
+          - dev.unified
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

@@ -110,7 +110,6 @@ jobs:
 Currently built branches (see [here](https://github.com/AlekSi/golang-tip/blob/main/.github/workflows/build.yml)):
 * `master` a.k.a tip, the next Go version;
 * `dev.boringcrypto` – [BoringCrypto](https://github.com/golang/go/blob/dev.boringcrypto/README.boringcrypto.md).
-* `dev.unified` – [unified IR construction](https://groups.google.com/g/golang-codereviews/c/uts4MQLoTx4)
 
 
 # Docker

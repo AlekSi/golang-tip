@@ -28,7 +28,6 @@ jobs:
         branch:
           - master
           - dev.boringcrypto
-          - dev.unified
 
     runs-on: ${{ matrix.os }}
 
@@ -76,7 +75,6 @@ jobs:
         branch:
           - master
           - dev.boringcrypto
-          - dev.unified
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

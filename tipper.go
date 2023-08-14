@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -105,7 +104,7 @@ func createTimestampFile() {
 	now := time.Now().UTC()
 	name := fmt.Sprintf("Built on %s.txt", now.Format("2006-01-02"))
 	data := []byte(fmt.Sprintf("Built on %s.\n", now.Format("2006-01-02T15:04:05Z07:00")))
-	if err := ioutil.WriteFile(name, data, 0o644); err != nil {
+	if err := os.WriteFile(name, data, 0o644); err != nil {
 		log.Fatal(err)
 	}
 

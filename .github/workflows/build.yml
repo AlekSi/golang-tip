@@ -129,7 +129,9 @@ jobs:
         uses: actions/download-artifact@v3
 
       - name: Prepare files
-        run: go run tipper.go all
+        run: |
+          go version
+          go run tipper.go all
 
       - name: Publish artifacts
         if: github.event_name != 'pull_request'

@@ -27,7 +27,6 @@ jobs:
           - ubuntu-22.04
         branch:
           - master
-          - dev.boringcrypto
 
     runs-on: ${{ matrix.os }}
 
@@ -77,7 +76,6 @@ jobs:
           - macos-12
         branch:
           - master
-          - dev.boringcrypto
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

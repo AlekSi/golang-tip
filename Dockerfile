@@ -1,4 +1,4 @@
-FROM golang:1.21.1
+FROM golang:1.21.2
 
 RUN git clone https://go.googlesource.com/go /tmp/golang-tip
 

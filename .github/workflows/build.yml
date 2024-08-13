@@ -5,7 +5,7 @@ on:
     # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events
     # > Note: The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs.
     # > High load times include the start of every hour. To decrease the chance of delay, schedule your workflow to run at a different time of the hour.
-    - cron: '48 2 * * *'
+    - cron: "48 2 * * *"
     # For weekly autoreleases
     # TODO https://github.com/AlekSi/golang-tip/issues/5
     # - cron: '48 1 * * 0'

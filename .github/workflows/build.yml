@@ -27,6 +27,9 @@ jobs:
           - ubuntu-22.04
         branch:
           - master
+          - release-branch.go1.23
+          - release-branch.go1.22
+          - release-branch.go1.21
 
     runs-on: ${{ matrix.os }}
 
@@ -76,6 +79,9 @@ jobs:
           - macos-12
         branch:
           - master
+          - release-branch.go1.23
+          - release-branch.go1.22
+          - release-branch.go1.21
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

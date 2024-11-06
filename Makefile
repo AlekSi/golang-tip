@@ -1,4 +1,7 @@
 GO_BRANCH ?= master
+DOCKER_PLATFORM ?= linux/amd64
+DOCKER_OUTPUT ?= type=docker
+DOCKER_TAG ?= golang-tip:$(GO_BRANCH)
 
 all: docker-build targz-build
 
@@ -13,10 +16,10 @@ docker-build:
 
 	docker buildx build \
 		--builder golang-tip \
-		--output type=docker \
-		--tag golang-tip:$(GO_BRANCH) \
+		--platform $(DOCKER_PLATFORM) \
+		--output $(DOCKER_OUTPUT) \
+		--tag $(DOCKER_TAG) \
 		--build-arg GO_BRANCH=$(GO_BRANCH) \
-		--build-arg CACHEBUST=$(shell date +%s) \
 		.
 
 # run tests when limits problem is fixed

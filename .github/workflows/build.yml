@@ -17,7 +17,7 @@ on:
 
 jobs:
   docker:
-    name: Docker
+    name: Docker (${{ matrix.branch }})
     timeout-minutes: 20
 
     strategy:
@@ -81,7 +81,7 @@ jobs:
       # TODO https://github.com/AlekSi/golang-tip/issues/8
 
   targz:
-    name: TarGz
+    name: TarGz (${{ matrix.branch }}, ${{ matrix.os }}, ${{ matrix.goroot }})
     timeout-minutes: 20
 
     strategy:
@@ -108,6 +108,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: false
 
       - name: Build .tar.gz file
         run: make targz-build

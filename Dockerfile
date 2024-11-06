@@ -36,7 +36,7 @@ env GOROOT_FINAL=/usr/local/go ./make.bash
 cd /
 rm -fr /usr/local/go
 rm -fr /tmp/golang-tip/.git
-mv -v /tmp/golang-tip /usr/local/go
+mv /tmp/golang-tip /usr/local/go
 go version
 
 # to save time to users

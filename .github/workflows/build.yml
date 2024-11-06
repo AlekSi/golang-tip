@@ -18,7 +18,7 @@ on:
 jobs:
   docker:
     name: Docker (${{ matrix.branch }})
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     strategy:
       fail-fast: false
@@ -82,7 +82,7 @@ jobs:
 
   targz:
     name: TarGz (${{ matrix.branch }}, ${{ matrix.os }}, ${{ matrix.goroot }})
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     strategy:
       fail-fast: false

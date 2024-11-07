@@ -46,6 +46,6 @@ go install std
 
 EOF
 
-LABEL org.opencontainers.image.title="Daily builds of active Go development branches (branch ${GO_BRANCH})"
+LABEL org.opencontainers.image.description="Daily builds of active Go development branches (branch ${GO_BRANCH})"
 LABEL org.opencontainers.image.url=https://github.com/AlekSi/golang-tip
 LABEL org.opencontainers.image.source=https://github.com/AlekSi/golang-tip

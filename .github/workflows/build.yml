@@ -18,7 +18,7 @@ on:
 jobs:
   docker:
     name: Docker (${{ matrix.branch }})
-    timeout-minutes: 50
+    timeout-minutes: 60
 
     strategy:
       fail-fast: false
@@ -60,7 +60,7 @@ jobs:
         run: make docker-build
         env:
           DOCKER_PLATFORM: linux/amd64,linux/arm64
-          DOCKER_OUTPUT: type=image,push=true
+          DOCKER_OUTPUT: type=image,push=true,annotation-index.org.opencontainers.image.description="Daily builds of active Go development branches (branch ${{ env.GO_BRANCH }})"
           DOCKER_TAG: aleksi/golang-tip:${{ env.GO_BRANCH }}
 
       - name: Build Docker images for ghcr.io
@@ -68,7 +68,7 @@ jobs:
         run: make docker-build
         env:
           DOCKER_PLATFORM: linux/amd64,linux/arm64
-          DOCKER_OUTPUT: type=image,push=true
+          DOCKER_OUTPUT: type=image,push=true,annotation-index.org.opencontainers.image.description="Daily builds of active Go development branches (branch ${{ env.GO_BRANCH }})"
           DOCKER_TAG: ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
 
       # skip push for PRs

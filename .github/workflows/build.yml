@@ -18,7 +18,7 @@ on:
 jobs:
   docker:
     name: Docker (${{ matrix.branch }})
-    timeout-minutes: 45
+    timeout-minutes: 50
 
     strategy:
       fail-fast: false
@@ -54,11 +54,6 @@ jobs:
       - name: Build Docker images for PR
         if: github.event_name == 'pull_request'
         run: make docker-build
-        env:
-          # FIXME
-          DOCKER_PLATFORM: linux/amd64,linux/arm64
-          DOCKER_OUTPUT: type=image,push=true
-          DOCKER_TAG: aleksi/golang-tip:${{ env.GO_BRANCH }}
 
       - name: Build Docker images for Docker Hub
         if: github.event_name != 'pull_request'

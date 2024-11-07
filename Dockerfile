@@ -41,8 +41,8 @@ go version
 
 # to save time to users
 go clean -cache
-go install -v -race std
-go install -v std
+go install -race std
+go install std
 
 EOF
 

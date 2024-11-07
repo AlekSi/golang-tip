@@ -1,5 +1,5 @@
 GO_BRANCH ?= master
-DOCKER_PLATFORM ?= linux/amd64
+DOCKER_PLATFORM ?= linux
 DOCKER_OUTPUT ?= type=docker
 DOCKER_TAG ?= golang-tip:$(GO_BRANCH)
 

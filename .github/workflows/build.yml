@@ -17,8 +17,8 @@ on:
 
 jobs:
   docker:
-    name: Docker
-    timeout-minutes: 20
+    name: Docker (${{ matrix.branch }})
+    timeout-minutes: 50
 
     strategy:
       fail-fast: false
@@ -29,7 +29,6 @@ jobs:
           - master
           - release-branch.go1.23
           - release-branch.go1.22
-          - release-branch.go1.21
 
     runs-on: ${{ matrix.os }}
 
@@ -43,45 +42,54 @@ jobs:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
 
-      - name: Start BuildKit builder
-        run: make docker-up
-
-      - name: Build Docker images
-        run: make docker-build
-
-      # skip push for PRs
-      # move to `publish` job
-      # TODO https://github.com/AlekSi/golang-tip/issues/8
-
       - name: Login into Docker registries
         if: github.event_name != 'pull_request'
         run: |
           docker login --username aleksi --password ${{ secrets.DOCKERHUB_TOKEN }}
           docker login ghcr.io --username aleksi --password ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Docker images
+      - name: Start BuildKit builder
+        run: make docker-up
+
+      - name: Build Docker images for PR
+        if: github.event_name == 'pull_request'
+        run: make docker-build
+
+      - name: Build Docker images for Docker Hub
         if: github.event_name != 'pull_request'
-        run: |
-          docker tag golang-tip:${{ env.GO_BRANCH }} aleksi/golang-tip:${{ env.GO_BRANCH }}
-          docker tag golang-tip:${{ env.GO_BRANCH }} ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
-          docker push aleksi/golang-tip:${{ env.GO_BRANCH }}
-          docker push ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
+        run: make docker-build
+        env:
+          DOCKER_PLATFORM: linux/amd64,linux/arm64
+          DOCKER_OUTPUT: type=image,push=true
+          DOCKER_TAG: aleksi/golang-tip:${{ env.GO_BRANCH }}
+
+      - name: Build Docker images for ghcr.io
+        if: github.event_name != 'pull_request'
+        run: make docker-build
+        env:
+          DOCKER_PLATFORM: linux/amd64,linux/arm64
+          DOCKER_OUTPUT: type=image,push=true
+          DOCKER_TAG: ghcr.io/aleksi/golang-tip:${{ env.GO_BRANCH }}
+
+      # skip push for PRs
+      # move to `publish` job
+      # TODO https://github.com/AlekSi/golang-tip/issues/8
 
   targz:
-    name: TarGz
-    timeout-minutes: 20
+    name: TarGz (${{ matrix.branch }}, ${{ matrix.os }}, ${{ matrix.goroot }})
+    timeout-minutes: 10
 
     strategy:
       fail-fast: false
       matrix:
         os:
           - ubuntu-22.04
-          - macos-12
+          - macos-13
+          - macos-15
         branch:
           - master
           - release-branch.go1.23
           - release-branch.go1.22
-          - release-branch.go1.21
         goroot:
           - /usr/local/go
           - /tmp/golang-tip
@@ -95,6 +103,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: false
 
       - name: Build .tar.gz file
         run: make targz-build

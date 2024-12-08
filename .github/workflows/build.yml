@@ -27,6 +27,7 @@ jobs:
           - ubuntu-22.04
         branch:
           - master
+          - release-branch.go1.24
           - release-branch.go1.23
           - release-branch.go1.22
 
@@ -88,6 +89,7 @@ jobs:
           - macos-15
         branch:
           - master
+          - release-branch.go1.24
           - release-branch.go1.23
           - release-branch.go1.22
         goroot:

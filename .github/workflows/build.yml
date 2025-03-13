@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-22.04
+          - ubuntu-24.04
         branch:
           - master
           - release-branch.go1.24
@@ -84,7 +84,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-22.04
+          - ubuntu-24.04
           - macos-13
           - macos-15
         branch:
@@ -138,7 +138,7 @@ jobs:
     name: Publish
     needs: [docker, targz]
     timeout-minutes: 10
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.actor != 'dependabot[bot]'
 
     steps:

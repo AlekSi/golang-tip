@@ -1,3 +1,8 @@
+This repo is semi-deprecated in favor of new [official `golang:XXX-tip` images](https://hub.docker.com/_/golang)
+that are rebuilt weekly but support more architectures.
+
+---
+
 # golang-tip
 
 [![Build](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml/badge.svg?branch=main&event=schedule)](https://github.com/AlekSi/golang-tip/actions/workflows/build.yml)

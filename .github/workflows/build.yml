@@ -29,7 +29,6 @@ jobs:
           - master
           - release-branch.go1.24
           - release-branch.go1.23
-          - release-branch.go1.22
 
     runs-on: ${{ matrix.os }}
 
@@ -91,7 +90,6 @@ jobs:
           - master
           - release-branch.go1.24
           - release-branch.go1.23
-          - release-branch.go1.22
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

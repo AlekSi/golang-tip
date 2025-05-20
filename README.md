@@ -116,7 +116,6 @@ Currently built branches (see [here](https://github.com/AlekSi/golang-tip/blob/m
 * `master` a.k.a tip, the next Go version.
 * `release-branch.go1.24`
 * `release-branch.go1.23`
-* `release-branch.go1.22`
 
 # Docker
 

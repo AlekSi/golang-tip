@@ -3,8 +3,6 @@ DOCKER_PLATFORM ?= linux
 DOCKER_OUTPUT ?= type=docker
 DOCKER_TAG ?= golang-tip:$(GO_BRANCH)
 
-export GOEXPERIMENT = cacheprog
-
 all: docker-build targz-build
 
 docker-up:

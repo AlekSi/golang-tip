@@ -27,8 +27,8 @@ jobs:
           - ubuntu-24.04
         branch:
           - master
-          - release-branch.go1.24
-          - release-branch.go1.23
+          - release-branch.go1.26
+          - release-branch.go1.25
 
     runs-on: ${{ matrix.os }}
 
@@ -88,8 +88,8 @@ jobs:
           - macos-15
         branch:
           - master
-          - release-branch.go1.24
-          - release-branch.go1.23
+          - release-branch.go1.26
+          - release-branch.go1.25
         goroot:
           - /usr/local/go
           - /tmp/golang-tip

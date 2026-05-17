@@ -3,12 +3,12 @@
 ARG GO_BRANCH
 
 
-FROM --platform=$BUILDPLATFORM golang:1.25 AS prepare
+FROM --platform=$BUILDPLATFORM golang:1.26 AS prepare
 
 RUN git clone https://go.googlesource.com/go /tmp/golang-tip
 
 
-FROM golang:1.25
+FROM golang:1.26
 
 ARG GO_BRANCH
 

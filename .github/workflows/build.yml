@@ -28,7 +28,6 @@ jobs:
         branch:
           - master
           - release-branch.go1.26
-          - release-branch.go1.25
 
     runs-on: ${{ matrix.os }}
 
@@ -37,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v4
@@ -89,7 +88,6 @@ jobs:
         branch:
           - master
           - release-branch.go1.26
-          - release-branch.go1.25
         goroot:
           - /usr/local/go
           - /tmp/golang-tip
@@ -102,10 +100,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
           cache: false
@@ -141,7 +139,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Download artifacts
         uses: actions/download-artifact@v8

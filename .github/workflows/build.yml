@@ -27,6 +27,7 @@ jobs:
           - ubuntu-24.04
         branch:
           - master
+          - release-branch.go1.27
           - release-branch.go1.26
 
     runs-on: ${{ matrix.os }}

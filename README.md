@@ -114,6 +114,7 @@ jobs:
 
 Currently built branches (see [here](https://github.com/AlekSi/golang-tip/blob/main/.github/workflows/build.yml)):
 * `master` a.k.a tip, the next Go version.
+* `release-branch.go1.27`
 * `release-branch.go1.26`
 
 # Docker
